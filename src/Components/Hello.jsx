@@ -3,7 +3,7 @@ export default function Hello() {
       <>
       <h1>I hope you have lots of fun with this project! 😻</h1>
      
-      <p>Piko</p>
+      <p>Library By Bryan</p>
       </>
     )
   }
