@@ -250,7 +250,7 @@ If you use this template, a credit is appreciated:
 **Bryan Onyango**
 
 - GitHub: [@BRYANOOKO738](https://github.com/BRYANOOKO738)
-- Email: [onyangobryan8@gmail.com](mailto:onyangobryan8@gmail.com)
+- Email: [ookobryan8@gmail.com](mailto:ookobryan8@gmail.com)
 
 If this project helped you, please give it a ⭐ on GitHub.
 
