@@ -4,6 +4,8 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    // Must match package.json "name": the Linux deb/rpm makers look for this binary.
+    executableName: 'electron-react-vite',
   },
   rebuildConfig: {},
   makers: [
@@ -17,11 +19,34 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        options: {
+          maintainer: 'Bryan Onyango <ookobryan8@gmail.com>',
+          homepage: 'https://bryanooko738.github.io/electron-react-vite/',
+          categories: ['Development'],
+        },
+      },
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {
+        options: {
+          homepage: 'https://bryanooko738.github.io/electron-react-vite/',
+          categories: ['Development'],
+        },
+      },
+    },
+  ],
+  publishers: [
+    {
+      // Uploads the installers from `npm run publish` to a GitHub release.
+      // Needs a GITHUB_TOKEN environment variable (set automatically in GitHub Actions).
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: { owner: 'BRYANOOKO738', name: 'electron-react-vite' },
+        draft: true,
+        generateReleaseNotes: true,
+      },
     },
   ],
   plugins: [
