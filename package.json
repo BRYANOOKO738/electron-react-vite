@@ -6,6 +6,9 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "docs:dev": "vitepress dev docs",
+"docs:build": "vitepress build docs",
+"docs:preview": "vitepress preview docs",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
