@@ -24,12 +24,14 @@ Electron · React · Vite · Tailwind CSS · Electron Forge
   that explains where to go next.
 - **Secure by default.** Context isolation, sandboxing, a strict Content Security Policy, a
   navigation guard and Electron fuses are already set up, and tests check them.
-- **Learn by example.** The welcome screen shows how the page talks to Electron through a safe
-  preload bridge (IPC), with comments explaining each step.
+- **Clear folders.** `main`, `preload`, `renderer` and `shared`: you always know where code goes.
+- **Learn by example.** A working IPC example in the code, and a step-by-step
+  [first-feature tutorial](https://bryanooko738.github.io/electron-react-vite/guide/first-feature)
+  where you build a note editor that saves files.
 - **Reliable.** Crash recovery, an error screen instead of a blank window, one running copy at a
   time, and end-to-end tests that start the real app.
-- **Ready to ship.** One command builds installers for Windows, macOS and Linux. Pushing a version
-  tag publishes them to GitHub Releases automatically.
+- **Ready to ship.** App icons included. One command builds installers for Windows, macOS (Apple
+  Silicon and Intel) and Linux, and a version tag publishes them to GitHub Releases.
 - **Clean code from day one.** ESLint, Prettier and CI on every pull request.
 
 ## Quick start
@@ -43,7 +45,10 @@ npm install
 npm start
 ```
 
-The app opens. Edit `src/Components/Welcome.jsx`, save, and watch the window update.
+The app opens. Edit `src/renderer/App.jsx`, save, and watch the window update.
+
+New to Electron? Follow the [getting started guide](https://bryanooko738.github.io/electron-react-vite/guide/getting-started).
+No Git? [Download the ZIP](https://github.com/BRYANOOKO738/electron-react-vite/archive/refs/heads/main.zip).
 
 ## Scripts
 
@@ -63,28 +68,34 @@ The app opens. Edit `src/Components/Welcome.jsx`, save, and watch the window upd
 
 ```text
 src/
-├── Components/
-│   ├── ErrorBoundary.jsx   # Recovery screen if a component crashes
-│   └── Welcome.jsx         # The first screen: replace it with your UI
-├── index.css               # Tailwind import and base styles
-├── main.js                 # Electron main process: window, security, IPC
-├── preload.js              # Safe bridge between Electron and the page
-└── renderer.jsx            # React entry point
-tests/app.spec.js           # End-to-end tests (Playwright)
-docs/                       # Documentation site (VitePress, GitHub Pages)
-forge.config.js             # Packaging, installers, publishing and fuses
-vite.renderer.config.mjs    # Vite, React, Tailwind and the Content Security Policy
+├── main/                  # Main process (Node.js): windows, files, the operating system
+│   ├── main.js            #   Starts the app and manages its lifecycle
+│   ├── window.js          #   Creates the window with secure settings
+│   ├── ipc.js             #   Answers requests from the page
+│   └── security.js        #   Blocks unsafe navigation, opens links in the browser
+├── preload/preload.js     # The bridge: what the page may ask the main process
+├── renderer/              # The page (React): everything the user sees
+│   ├── App.jsx            #   The root component: start here
+│   ├── components/        #   Reusable UI
+│   ├── hooks/             #   Reusable React logic
+│   └── styles/index.css   #   Tailwind and global styles
+└── shared/                # Code used by both main and preload (IPC channel names)
+assets/icons/              # App icon for Windows, macOS and Linux
+tests/                     # End-to-end tests that start the real app (Playwright)
+docs/                      # Documentation site (VitePress, GitHub Pages)
+forge.config.js            # Packaging, installers, icons and publishing
+vite.renderer.config.mjs   # Vite, React, Tailwind and the Content Security Policy
 ```
 
-An Electron app has three parts:
+The page never touches Node.js directly. It asks through the preload bridge, and the main process
+decides:
 
-1. **Main process** (`src/main.js`) runs Node.js and controls windows and the app's lifecycle.
-2. **Renderer** (`src/renderer.jsx`) is the React page inside the window. It has no Node.js access.
-3. **Preload** (`src/preload.js`) is the only bridge between them. It exposes small, specific
-   functions to the page.
+```text
+React component  →  window.electronApp.getAppInfo()  →  preload.js  →  main/ipc.js
+```
 
-Read the [project structure guide](https://bryanooko738.github.io/electron-react-vite/guide/project-structure)
-to add your own features the same way.
+Read [where does my code go?](https://bryanooko738.github.io/electron-react-vite/guide/project-structure#where-does-my-code-go)
+and how to organise a growing app.
 
 ## Security
 
@@ -124,6 +135,8 @@ GitHub Actions then builds installers on Windows, macOS and Linux and attaches t
 | Blank window                                   | Open DevTools (`Ctrl+Shift+I` / `Cmd+Option+I`) and read the Console. |
 | `npm run make` fails on Linux                  | Install `fakeroot` and `dpkg` for `.deb`, or `rpm` for `.rpm`.        |
 | `npm test` fails on Linux with no display      | Run it with a virtual display: `xvfb-run npm test`.                   |
+
+More answers in the [troubleshooting guide](https://bryanooko738.github.io/electron-react-vite/guide/troubleshooting).
 
 ## Contributing
 

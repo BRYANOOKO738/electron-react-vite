@@ -19,11 +19,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - CI: lint, format check, tests and installer builds on every pull request.
 - ESLint, Prettier, EditorConfig, Dependabot, issue forms, a pull request template,
   CONTRIBUTING.md and SECURITY.md.
+- App icon for Windows, macOS and Linux, used by the app and its installers.
+- Download page that lists the latest release's installers and highlights the one for the
+  visitor's computer.
+- Guides: "Your first feature" tutorial, "Common tasks" and "Troubleshooting"; rewritten
+  "Getting started" and "Project structure".
+- macOS releases for both Apple Silicon and Intel.
+- Shared test helpers (`tests/helpers.js`).
 
 ### Changed
 
 - Electron Forge packages updated to 7.11.2.
 - Renamed the app from `my-app` to `electron-react-vite` ("Electron React Vite").
+- Source split into `src/main`, `src/preload`, `src/renderer` and `src/shared`, with the main
+  process split into `main.js`, `window.js`, `ipc.js` and `security.js`.
+- IPC channel names live in `src/shared/ipc-channels.js`.
+- Welcome screen uses a `useAppInfo` hook and a `LinkCard` component.
 
 ### Fixed
 
@@ -32,6 +43,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - DevTools opened in the packaged app.
 - The renderer had no Content Security Policy.
 - The window could navigate to other websites, and links opened inside the app.
+- Release workflow: the three build jobs could each create their own draft release. The release
+  is now created once before the builds, and tests run before anything is published.
+- Tests could fail when there was more than one test file, because the single-instance lock
+  closed the second app. Tests now run one app at a time.
 
 ## [1.0.0]
 

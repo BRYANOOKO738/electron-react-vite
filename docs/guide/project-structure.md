@@ -1,59 +1,86 @@
 # Project structure
 
+An Electron app is really **two programs** that talk to each other: a Node.js program that controls
+the app (the **main process**) and a web page inside each window (the **renderer**). This template
+keeps them in separate folders, so you always know where code belongs.
+
 ```text
-src/
-├── Components/
-│   ├── ErrorBoundary.jsx   # Recovery screen if a component crashes
-│   └── Welcome.jsx         # The first screen: replace it with your UI
-├── index.css               # Tailwind import and base styles
-├── main.js                 # Electron main process
-├── preload.js              # Safe bridge between main and renderer
-└── renderer.jsx            # React entry point
-tests/
-└── app.spec.js             # End-to-end tests that start the real app
-docs/                       # This documentation site (VitePress)
+my-app/
+├── src/
+│   ├── main/                  Main process (Node.js): windows, files, the operating system
+│   │   ├── main.js              Starts the app and manages its lifecycle
+│   │   ├── window.js            Creates the app window with secure settings
+│   │   ├── ipc.js               Answers requests from the page
+│   │   └── security.js          Blocks unsafe navigation, opens links in the browser
+│   ├── preload/
+│   │   └── preload.js         The bridge: chooses what the page may ask the main process
+│   ├── renderer/              The page (React): everything the user sees
+│   │   ├── main.jsx             Mounts React into index.html
+│   │   ├── App.jsx              The root component: start here
+│   │   ├── components/          Reusable pieces of UI
+│   │   ├── hooks/               Reusable React logic (for example useAppInfo)
+│   │   └── styles/index.css     Tailwind and global styles
+│   └── shared/
+│       └── ipc-channels.js    Names shared by main and preload
+├── assets/icons/              App icon for Windows (.ico), macOS (.icns) and Linux (.png)
+├── tests/                     End-to-end tests that start the real app
+├── docs/                      This documentation site
+├── index.html                 The HTML page loaded into the window
+├── forge.config.js            Packaging, installers, icons and publishing
+└── vite.renderer.config.mjs   Vite, React, Tailwind and the Content Security Policy
 ```
 
-## The three parts of an Electron app
+## Where does my code go?
 
-- **Main process** (`src/main.js`) runs Node.js. It creates the window and controls the app's lifecycle.
-- **Renderer process** (`index.html` and `src/renderer.jsx`) is the web page inside the window. It has
-  no access to Node.js.
-- **Preload script** (`src/preload.js`) runs before the page loads. It is the only safe place to
-  expose main-process features to the page, through `contextBridge`.
+| I want to…                                       | Put it in                                    |
+| ------------------------------------------------ | -------------------------------------------- |
+| Add a button, form, list or any UI               | `src/renderer/components/`                   |
+| Add a whole screen                               | `src/renderer/pages/` (create the folder)    |
+| Share logic between components (data loading…)   | `src/renderer/hooks/`                        |
+| Read or write files, open dialogs, notifications | `src/main/ipc.js` + `src/preload/preload.js` |
+| Change the window size, title bar or menu        | `src/main/window.js`                         |
+| Add a constant used by main and preload          | `src/shared/`                                |
+| Add images or fonts used by the page             | `src/renderer/assets/` (create the folder)   |
+| Change the app icon                              | `assets/icons/`                              |
 
-## Calling the main process from React (IPC)
+## How the page talks to Electron
 
-The template already contains a working example. The welcome screen shows the app's name and
-version, which it gets from the main process:
+The page cannot use Node.js directly. That is on purpose: if it could, any bug or injected script
+in the page could read and delete files. Instead, the page asks, and the main process decides.
 
-```js
-// src/main.js: answer the request
-ipcMain.handle('app:get-info', () => ({
-  name: app.getName(),
-  version: app.getVersion(),
-  platform: process.platform,
-}));
+```text
+React component          preload.js                  main/ipc.js
+───────────────          ──────────                  ───────────
+window.electronApp   →   ipcRenderer.invoke(...)  →  ipcMain.handle(...)
+   .getAppInfo()                                        returns { name, version }
+        ↑                                                       │
+        └───────────────────────── answer ──────────────────────┘
 ```
 
-```js
-// src/preload.js: expose one small function to the page
-contextBridge.exposeInMainWorld('electronApp', {
-  getAppInfo: () => ipcRenderer.invoke('app:get-info'),
-});
+The template already contains one working example, `getAppInfo`. Every new feature follows the
+same four steps, shown in full in [Your first feature](/guide/first-feature):
+
+1. Name the channel in `src/shared/ipc-channels.js`.
+2. Handle it in `src/main/ipc.js`.
+3. Expose a function for it in `src/preload/preload.js`.
+4. Call that function from a component.
+
+## Growing your app
+
+When the app gets bigger, group code by **feature** instead of by type:
+
+```text
+src/renderer/
+├── pages/
+│   ├── HomePage.jsx
+│   └── SettingsPage.jsx
+├── features/
+│   └── notes/
+│       ├── NoteEditor.jsx
+│       ├── NoteList.jsx
+│       └── useNotes.js
+└── components/        Only UI used by several features (buttons, cards, dialogs)
 ```
 
-```jsx
-// src/Components/Welcome.jsx: call it from React
-useEffect(() => {
-  window.electronApp?.getAppInfo().then(setAppInfo);
-}, []);
-```
-
-To add your own feature, follow the same three steps: handle a channel in `main.js`, expose a
-function for it in `preload.js`, and call that function from your component.
-
-::: tip
-Expose small, specific functions. Never expose `ipcRenderer` itself to the page: any script running
-in the page could then send any message to the main process.
-:::
+The same idea works in `src/main`: split `ipc.js` into one file per feature (for example
+`src/main/ipc/notes.js`) and call each one from `registerIpcHandlers()`.

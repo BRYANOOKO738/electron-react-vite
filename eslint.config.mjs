@@ -9,8 +9,8 @@ export default [
   },
   js.configs.recommended,
   {
-    // Electron main process and preload script (Node.js).
-    files: ['src/main.js', 'src/preload.js'],
+    // Electron main process, preload script and shared code (Node.js).
+    files: ['src/main/**/*.js', 'src/preload/**/*.js', 'src/shared/**/*.js'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -26,7 +26,7 @@ export default [
   },
   {
     // React renderer (browser).
-    files: ['src/**/*.jsx'],
+    files: ['src/renderer/**/*.{js,jsx}'],
     ...react.configs.flat.recommended,
     ...react.configs.flat['jsx-runtime'],
     languageOptions: {

@@ -1,38 +1,83 @@
 # Getting started
 
-## Requirements
+This guide takes you from nothing to a running desktop app in about five minutes. No Electron
+experience needed.
 
-- [Node.js](https://nodejs.org/) 20 or newer (the version in `.nvmrc` is recommended)
-- npm
-- [Git](https://git-scm.com/)
+## 1. Install the tools
 
-## Create your app
+You need two free tools. Install them once.
+
+| Tool                                 | Why                          | Check it works  |
+| ------------------------------------ | ---------------------------- | --------------- |
+| [Node.js](https://nodejs.org/) (LTS) | Runs the build tools and npm | `node -v`       |
+| [Git](https://git-scm.com/downloads) | Downloads the template       | `git --version` |
+
+Open a terminal (on Windows: **PowerShell**; on macOS: **Terminal**) and run the commands in the last
+column. Each should print a version number. Node.js must be **20 or newer**.
+
+::: tip Use a code editor
+[Visual Studio Code](https://code.visualstudio.com/) is free and works well with this template.
+:::
+
+## 2. Create your app
 
 ```bash
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app
 cd my-app
 npm install
+```
+
+`npm install` downloads Electron and the other packages. It takes a minute or two the first time.
+
+## 3. Start it
+
+```bash
 npm start
 ```
 
-A window opens with the welcome screen. Open `src/Components/Welcome.jsx`, change some text and
-save: the window updates instantly.
+A window opens with the welcome screen, and DevTools opens next to it so you can see errors and logs.
+
+## 4. Make your first change
+
+Open `src/renderer/App.jsx` and replace its content with:
+
+```jsx
+export default function App() {
+  return <h1 className="p-8 text-3xl font-bold">Hello, desktop!</h1>;
+}
+```
+
+Save the file. The window updates instantly. You just edited a desktop app with React and Tailwind.
+
+::: info What reloads when
+Changes in `src/renderer` update the window instantly. Changes in `src/preload` reload the window,
+and changes in `src/main` restart the app, both automatically. If anything looks stuck, type `rs`
+in the terminal and press Enter to restart.
+:::
+
+## 5. Check your work
+
+```bash
+npm run check   # finds mistakes and formatting problems
+npm test        # starts the real app and runs the tests
+```
+
+## Every command
+
+| Command            | What it does                                        |
+| ------------------ | --------------------------------------------------- |
+| `npm start`        | Runs the app in development mode with hot reload    |
+| `npm test`         | Builds the app and runs the end-to-end tests        |
+| `npm run check`    | Runs ESLint and the Prettier format check           |
+| `npm run lint:fix` | Fixes lint problems that can be fixed automatically |
+| `npm run format`   | Formats every file                                  |
+| `npm run package`  | Bundles the app into `out/` (no installer)          |
+| `npm run make`     | Builds installers for your system into `out/make/`  |
+| `npm run docs:dev` | Runs this documentation site locally                |
 
 ## Next steps
 
-- Learn how the parts fit together in [Project structure](/guide/project-structure).
-- See what keeps your app safe in [Security](/guide/security).
-- Ship it to users with [Building and releasing](/guide/releasing).
-
-## Scripts
-
-| Command            | What it does                                     |
-| ------------------ | ------------------------------------------------ |
-| `npm start`        | Runs the app in development mode with hot reload |
-| `npm run package`  | Bundles the app into `out/` (no installer)       |
-| `npm run make`     | Builds installers into `out/make/`               |
-| `npm test`         | Builds the app and runs the end-to-end tests     |
-| `npm run lint`     | Checks the code with ESLint                      |
-| `npm run format`   | Formats the code with Prettier                   |
-| `npm run check`    | Runs lint and the format check                   |
-| `npm run docs:dev` | Runs this documentation site locally             |
+1. Learn [where each kind of code goes](/guide/project-structure).
+2. Build [your first feature](/guide/first-feature): a note editor that saves files.
+3. Look up [common tasks](/guide/common-tasks) such as renaming the app or changing its icon.
+4. [Ship it](/guide/releasing) to users.
