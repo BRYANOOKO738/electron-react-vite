@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://bryanooko738.github.io/electron-react-vite/
+    about: Read the guide before opening an issue.
+  - name: Report a security vulnerability
+    url: https://github.com/BRYANOOKO738/electron-react-vite/security/advisories/new
+    about: Please report security issues privately, not as public issues.
