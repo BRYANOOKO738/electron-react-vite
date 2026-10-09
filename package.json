@@ -72,8 +72,8 @@
     "@tailwindcss/vite": "^4.1.17",
     "@vitejs/plugin-react": "^4.4.0",
     "electron-squirrel-startup": "^1.0.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "tailwindcss": "^4.1.17"
   }
 }
