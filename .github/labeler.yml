@@ -1,0 +1,22 @@
+# Labels added by the Labeler workflow, by changed files.
+main-process:
+  - changed-files:
+      - any-glob-to-any-file: ['src/main/**', 'src/preload/**', 'src/shared/**']
+renderer:
+  - changed-files:
+      - any-glob-to-any-file: ['src/renderer/**', 'index.html', 'vite.renderer.config.mjs']
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', '*.md']
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**', 'playwright.config.js']
+ci:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/**']
+build:
+  - changed-files:
+      - any-glob-to-any-file: ['forge.config.js', 'vite.*.config.mjs', 'assets/**', 'scripts/**']
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['package.json', 'package-lock.json']

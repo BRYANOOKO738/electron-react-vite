@@ -19,8 +19,25 @@ Use the Node.js version in `.nvmrc` (`nvm use`).
 2. Make your change.
 3. Run `npm run check` and fix anything it reports (`npm run lint:fix` and `npm run format` help).
 4. Check the app still starts with `npm start` and builds with `npm run package`.
-5. Add a line under **Unreleased** in `CHANGELOG.md`.
-6. Open a pull request and fill in the template.
+5. Open a pull request and fill in the template. Give it a
+   [Conventional Commits](https://www.conventionalcommits.org/) title, for example:
+   - `feat: add a settings page` for a new feature
+   - `fix: crash when saving an empty note` for a bug fix
+   - `docs: explain how to change the icon` for documentation
+
+   The **Pull Request Title** check confirms the format. You don't need to edit `CHANGELOG.md`:
+   Release Please writes it from these titles and commit messages.
+
+## Automated checks on your pull request
+
+| Check              | What it does                                                      |
+| ------------------ | ----------------------------------------------------------------- |
+| CI                 | Lint, format, tests and installer builds on Windows, macOS, Linux |
+| CodeQL             | Scans the code for security problems                              |
+| Dependency Review  | Blocks new packages with known vulnerabilities                    |
+| Pull Request Title | Checks the Conventional Commits title                             |
+| Labeler            | Labels the pull request by the files it changes                   |
+| Links              | Checks web links when docs change                                 |
 
 ## Documentation
 

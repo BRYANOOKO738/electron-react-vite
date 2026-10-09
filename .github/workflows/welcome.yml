@@ -1,0 +1,29 @@
+name: Welcome
+
+# Greets people the first time they open an issue or pull request.
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            Thanks for opening your first issue here! 🎉
+            Please make sure it includes your operating system, `node -v` and the full error message.
+            The [troubleshooting guide](https://bryanooko738.github.io/electron-react-vite/guide/troubleshooting) may already have an answer.
+          pr-message: |
+            Thanks for your first pull request! 🎉
+            CI will check lint, tests and builds on Windows, macOS and Linux. Please make sure the title
+            follows Conventional Commits, for example `feat: add dark mode` or `fix: crash when saving`.
+            See [CONTRIBUTING.md](https://github.com/BRYANOOKO738/electron-react-vite/blob/main/CONTRIBUTING.md).

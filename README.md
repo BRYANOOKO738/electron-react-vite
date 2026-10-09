@@ -115,18 +115,30 @@ The end-to-end tests check these protections on every pull request. To report a 
 
 ## Releasing
 
-```bash
-npm version patch        # or minor / major
-git push --follow-tags
-```
-
-GitHub Actions then builds installers on Windows, macOS and Linux and attaches them to a draft
-[release](https://github.com/BRYANOOKO738/electron-react-vite/releases). Review it and click
-**Publish**. See the [release guide](https://bryanooko738.github.io/electron-react-vite/guide/releasing).
+Merge the **"chore(main): release x.y.z"** pull request that Release Please keeps up to date. It
+creates the release, and the installers for Windows, macOS (Apple Silicon and Intel) and Linux are
+built and attached automatically. See the [release guide](https://bryanooko738.github.io/electron-react-vite/guide/releasing).
 
 > [!NOTE]
 > The installers are not code-signed yet, so Windows SmartScreen and macOS Gatekeeper warn users
 > when they open them.
+
+## Automation
+
+| Bot                | What it does                                                                 |
+| ------------------ | ---------------------------------------------------------------------------- |
+| CI                 | Lint, format, end-to-end tests and installer builds on Windows, macOS, Linux |
+| Release Please     | Writes the changelog and opens release pull requests from commit messages    |
+| Release            | Builds and uploads the installers for every release                          |
+| Docs               | Publishes the documentation site to GitHub Pages                             |
+| CodeQL             | Scans the code for security problems on every pull request and weekly        |
+| Dependency Review  | Blocks pull requests that add packages with known vulnerabilities            |
+| Dependabot         | Opens pull requests to keep packages and actions up to date                  |
+| Pull Request Title | Checks titles follow Conventional Commits (used for versions and changelog)  |
+| Labeler            | Labels pull requests by the parts of the project they change                 |
+| Welcome            | Greets first-time contributors                                               |
+| Stale              | Closes issues and pull requests with no activity for 74 days                 |
+| Links              | Checks the web links in the README and docs                                  |
 
 ## Troubleshooting
 
