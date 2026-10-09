@@ -1,11 +1,11 @@
 # Changelog
 
-All notable changes to this project are documented here.
+All notable changes to this project are documented here. New versions are added automatically by
+[Release Please](https://github.com/googleapis/release-please) from
+[Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:` ...), and this project
+uses [Semantic Versioning](https://semver.org/).
 
-The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project uses
-[Semantic Versioning](https://semver.org/).
-
-## [Unreleased]
+## 1.0.0 (2026-10-09)
 
 ### Added
 
@@ -57,9 +57,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Tests could fail when there was more than one test file, because the single-instance lock
   closed the second app. Tests now run one app at a time.
 
-## [1.0.0]
+### First version
 
 - First version: Electron, React, Vite and Tailwind CSS template.
-
-[Unreleased]: https://github.com/BRYANOOKO738/electron-react-vite/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/BRYANOOKO738/electron-react-vite/releases/tag/v1.0.0

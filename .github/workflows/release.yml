@@ -1,16 +1,26 @@
 name: Release
 
-# Runs when a version tag is pushed: `npm version patch && git push --follow-tags`.
-# Builds installers on Windows, macOS and Linux and attaches them to ONE draft release.
+# Builds installers on Windows, macOS and Linux and attaches them to ONE release.
+# Runs when Release Please creates a release (see release-please.yml), or when a
+# version tag is pushed by hand: `npm version patch && git push --follow-tags`.
 on:
   push:
     tags: ['v*.*.*']
+  workflow_call:
+    inputs:
+      tag:
+        description: The version tag to build, for example v1.2.0
+        required: true
+        type: string
 
 permissions:
   contents: write # create the release and upload installers
 
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ inputs.tag || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -19,11 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
       - name: Check the tag matches package.json
         run: |
           expected="v$(node -p "require('./package.json').version")"
-          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $expected"
+          if [ "$TAG" != "$expected" ]; then
+            echo "::error::Tag $TAG does not match package.json version $expected"
             exit 1
           fi
       # Created once here, so the three build jobs below all upload to the same
@@ -33,10 +45,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -qx "$GITHUB_REF_NAME"; then
-            echo "Release $GITHUB_REF_NAME already exists"
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -qx "$TAG"; then
+            echo "Release $TAG already exists"
           else
-            gh release create "$GITHUB_REF_NAME" --draft --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
+            gh release create "$TAG" --draft --verify-tag --generate-notes --title "$TAG"
           fi
 
   publish:
@@ -56,6 +68,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
