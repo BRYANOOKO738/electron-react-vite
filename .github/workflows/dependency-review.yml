@@ -28,7 +28,7 @@ jobs:
           fi
       - uses: actions/checkout@v7
         if: steps.graph.outputs.enabled == 'true'
-      - uses: actions/dependency-review-action@v4
+      - uses: actions/dependency-review-action@v5
         if: steps.graph.outputs.enabled == 'true'
         with:
           fail-on-severity: moderate
