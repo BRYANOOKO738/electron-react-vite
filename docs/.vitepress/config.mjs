@@ -12,7 +12,9 @@ export default defineConfig({
   lang: 'en-US',
   cleanUrls: true,
   lastUpdated: true,
+  head: [['link', { rel: 'icon', href: '/electron-react-vite/icon.png' }]],
   themeConfig: {
+    logo: '/icon.png',
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Download', link: '/download' },
@@ -24,8 +26,16 @@ export default defineConfig({
         items: [
           { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Project structure', link: '/guide/project-structure' },
-          { text: 'Security', link: '/guide/security' },
+          { text: 'Your first feature', link: '/guide/first-feature' },
+          { text: 'Common tasks', link: '/guide/common-tasks' },
+        ],
+      },
+      {
+        text: 'Ship it',
+        items: [
           { text: 'Building and releasing', link: '/guide/releasing' },
+          { text: 'Security', link: '/guide/security' },
+          { text: 'Troubleshooting', link: '/guide/troubleshooting' },
         ],
       },
     ],
