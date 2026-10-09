@@ -1,0 +1,33 @@
+name: Pull Request Title
+
+# Checks that pull request titles follow Conventional Commits, for example
+# "feat: add dark mode toggle" or "fix: crash when saving". Release Please
+# uses these words to pick the next version and write the changelog.
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            perf
+            deps
+            docs
+            refactor
+            test
+            ci
+            build
+            chore
+            style
+          requireScope: false

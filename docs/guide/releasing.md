@@ -27,23 +27,27 @@ You don't need all three computers: the release workflow below builds on all of 
 
 ## Publish a release
 
-1. Update `CHANGELOG.md`.
-2. Bump the version and push the tag:
+Releases are automatic with [Release Please](https://github.com/googleapis/release-please):
 
-   ```bash
-   npm version patch   # 1.0.0 → 1.0.1; use minor or major for bigger changes
-   git push --follow-tags
-   ```
+1. Give pull requests [Conventional Commits](https://www.conventionalcommits.org/) titles:
+   `feat: …` for features (next minor version), `fix: …` for bug fixes (next patch version).
+2. After each merge, Release Please updates a pull request called
+   **"chore(main): release x.y.z"** with the new version number and the changelog.
+3. When you are ready to release, merge that pull request. Release Please creates the tag and the
+   GitHub release, then the **Release** workflow tests the app on Windows, macOS and Linux and
+   uploads the installers to it (about 10 minutes).
 
-3. On GitHub, open **Actions → Release** and wait for it to finish (about 10 minutes). It runs the
-   tests on Windows, macOS and Linux, then uploads the installers to a **draft** release.
-4. Open **Releases**, check the draft and its notes, and click **Publish release**.
+The installers then appear on the [download page](/download).
 
-Once published, the installers appear on the [download page](/download).
+::: details Releasing by hand
+You can still release without Release Please:
 
-::: tip Draft releases are private
-Nobody else can see a draft. If the download page shows nothing, the release is probably still
-a draft.
+```bash
+npm version patch   # 1.0.0 → 1.0.1; use minor or major for bigger changes
+git push --follow-tags
+```
+
+This creates a **draft** release: open **Releases**, check it and click **Publish release**.
 :::
 
 ## Code signing

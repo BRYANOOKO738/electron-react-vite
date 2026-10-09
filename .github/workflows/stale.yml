@@ -1,0 +1,32 @@
+name: Stale
+
+# Keeps the issue list tidy: issues and pull requests with no activity for
+# 60 days are labelled "stale", then closed 14 days later unless someone replies.
+on:
+  schedule:
+    - cron: '41 4 * * *' # every day
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-stale: 60
+          days-before-close: 14
+          stale-issue-label: stale
+          stale-pr-label: stale
+          exempt-issue-labels: pinned,security,good first issue,help wanted
+          exempt-pr-labels: pinned,security
+          stale-issue-message: >
+            This issue has had no activity for 60 days. It will be closed in 14 days
+            unless someone comments. Thanks for helping keep the project tidy!
+          stale-pr-message: >
+            This pull request has had no activity for 60 days. It will be closed in 14 days
+            unless it is updated.
+          close-issue-message: Closed because it had no activity. Comment to reopen it.

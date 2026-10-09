@@ -1,0 +1,35 @@
+name: Links
+
+# Checks that the web links in the README and documentation still work.
+on:
+  pull_request:
+    paths: ['docs/**', '*.md']
+  schedule:
+    - cron: '17 5 * * 1' # every Monday: websites move
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          # Links like /guide/first-feature are docs pages: they resolve to docs/guide/first-feature.md.
+          # Excluded: this project's docs site (pages may not be deployed yet), the latest
+          # release (404 until the first release) and pages that need a signed-in user.
+          args: >-
+            --no-progress
+            --root-dir ${{ github.workspace }}/docs
+            --fallback-extensions md
+            --exclude-path node_modules
+            --exclude '^https://bryanooko738\.github\.io/electron-react-vite/'
+            --exclude '/releases/latest'
+            --exclude '/security/advisories/new'
+            --exclude '/issues/new'
+            --exclude '/edit/main/'
+            './**/*.md'
+          fail: true

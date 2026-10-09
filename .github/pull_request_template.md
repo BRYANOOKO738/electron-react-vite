@@ -1,3 +1,5 @@
+<!-- Title: use Conventional Commits, for example "feat: add dark mode" or "fix: crash when saving". -->
+
 ## What does this change?
 
 <!-- A short description of the change and why it is needed. -->

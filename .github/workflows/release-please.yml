@@ -1,0 +1,38 @@
+name: Release Please
+
+# On every push to main, Release Please reads the commit messages
+# (feat: ..., fix: ...) and keeps a "chore(main): release x.y.z" pull request
+# up to date with the next version number and changelog. Merging that pull
+# request creates the tag and GitHub release, then builds and uploads the
+# installers with the Release workflow.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # Tags created with the workflow token do not start other workflows,
+  # so the installers are built by calling the Release workflow directly.
+  installers:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/release.yml
+    with:
+      tag: ${{ needs.release-please.outputs.tag_name }}
+    permissions:
+      contents: write
