@@ -6,17 +6,18 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "test": "electron-forge package && playwright test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run lint && npm run format:check",
     "docs:dev": "vitepress dev docs",
-"docs:build": "vitepress build docs",
-"docs:preview": "vitepress preview docs",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check"
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "engines": {
     "node": ">=20"
@@ -44,92 +45,26 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^7.10.2",
-    "@electron-forge/maker-deb": "^7.10.2",
-    "@electron-forge/maker-rpm": "^7.10.2",
-    "@electron-forge/maker-squirrel": "^7.10.2",
-    "@electron-forge/maker-zip": "^7.10.2",
-    "@electron-forge/plugin-auto-unpa{
-  "name": "electron-react-vite",
-  "productName": "Electron React Vite",
-  "version": "1.0.0",
-  "description": "A secure, ready-to-ship desktop app template with Electron, React, Vite and Tailwind CSS.",
-  "main": ".vite/build/main.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "check": "npm run lint && npm run format:check"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BRYANOOKO738/electron-react-vite.git"
-  },
-  "homepage": "https://github.com/BRYANOOKO738/electron-react-vite#readme",
-  "bugs": {
-    "url": "https://github.com/BRYANOOKO738/electron-react-vite/issues"
-  },
-  "keywords": [
-    "electron",
-    "react",
-    "vite",
-    "tailwindcss",
-    "electron-forge",
-    "template",
-    "desktop"
-  ],
-  "author": {
-    "name": "Bryan Onyango",
-    "email": "ookobryan8@gmail.com"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@electron-forge/cli": "^7.10.2",
-    "@electron-forge/maker-deb": "^7.10.2",
-    "@electron-forge/maker-rpm": "^7.10.2",
-    "@electron-forge/maker-squirrel": "^7.10.2",
-    "@electron-forge/maker-zip": "^7.10.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.10.2",
-    "@electron-forge/plugin-fuses": "^7.10.2",
-    "@electron-forge/plugin-vite": "^7.10.2",
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron-forge/plugin-vite": "^7.11.2",
+    "@electron-forge/publisher-github": "^7.11.2",
     "@electron/fuses": "^1.8.0",
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.64.0",
     "electron": "39.1.0",
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.13.0",
     "prettier": "^3.9.9",
-    "vite": "^5.4.21"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.17",
-    "@vitejs/plugin-react": "^4.4.0",
-    "electron-squirrel-startup": "^1.0.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.17"
-  }
-}ck-natives": "^7.10.2",
-    "@electron-forge/plugin-fuses": "^7.10.2",
-    "@electron-forge/plugin-vite": "^7.10.2",
-    "@electron/fuses": "^1.8.0",
-    "@eslint/js": "^9.39.5",
-    "electron": "39.1.0",
-    "eslint": "^9.39.5",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.13.0",
-    "prettier": "^3.9.9",
-    "vite": "^5.4.21"
+    "vite": "^5.4.21",
+    "vitepress": "^1.6.4"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
