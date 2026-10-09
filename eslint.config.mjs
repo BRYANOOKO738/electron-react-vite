@@ -20,8 +20,8 @@ export default [
     },
   },
   {
-    // Build and tooling config files, and the end-to-end tests.
-    files: ['*.config.{js,mjs}', 'tests/**/*.js'],
+    // Build and tooling config files, setup scripts and the end-to-end tests.
+    files: ['*.config.{js,mjs}', 'tests/**/*.js', 'scripts/**/*.js'],
     languageOptions: { globals: globals.node },
   },
   {

@@ -22,20 +22,20 @@ To build your own app, get the source code in one of these ways:
 ```bash [Git]
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app
 cd my-app
-npm install
+npm run setup
 npm start
 ```
 
 ```bash [degit (no Git history)]
 npx degit BRYANOOKO738/electron-react-vite my-app
 cd my-app
-npm install
+npm run setup
 npm start
 ```
 
 :::
 
 No Git? [Download the source as a ZIP file](https://github.com/BRYANOOKO738/electron-react-vite/archive/refs/heads/main.zip),
-unzip it, open a terminal in the folder and run `npm install`, then `npm start`.
+unzip it, open a terminal in the folder and run `npm run setup`, then `npm start`.
 
 New to all this? Follow [Getting started](/guide/getting-started) step by step.

@@ -41,7 +41,7 @@ You need [Node.js](https://nodejs.org/) 20 or newer (22 recommended) and [Git](h
 ```bash
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app
 cd my-app
-npm install
+npm run setup    # checks Node.js and installs everything, with progress
 npm start
 ```
 
@@ -54,6 +54,7 @@ No Git? [Download the ZIP](https://github.com/BRYANOOKO738/electron-react-vite/a
 
 | Command            | What it does                                        |
 | ------------------ | --------------------------------------------------- |
+| `npm run setup`    | Checks Node.js and installs everything (first time) |
 | `npm start`        | Runs the app in development mode with hot reload    |
 | `npm test`         | Builds the app and runs the end-to-end tests        |
 | `npm run check`    | Runs ESLint and the Prettier format check           |
@@ -81,6 +82,7 @@ src/
 │   └── styles/index.css   #   Tailwind and global styles
 └── shared/                # Code used by both main and preload (IPC channel names)
 assets/icons/              # App icon for Windows, macOS and Linux
+scripts/                   # npm run setup and the after-install summary
 tests/                     # End-to-end tests that start the real app (Playwright)
 docs/                      # Documentation site (VitePress, GitHub Pages)
 forge.config.js            # Packaging, installers, icons and publishing

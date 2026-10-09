@@ -9,6 +9,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- `npm run setup`: checks Node.js, installs with an animated progress spinner and timer, and
+  shows the next steps; a short summary also appears after a plain `npm install`.
 - Welcome screen with light and dark mode, showing the runtime versions and an IPC example.
 - Safe preload bridge (`window.electronApp`) and an `app:get-info` IPC handler.
 - End-to-end tests with Playwright that start the real app (`npm test`).
