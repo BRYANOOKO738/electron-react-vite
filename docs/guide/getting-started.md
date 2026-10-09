@@ -13,7 +13,7 @@ You need two free tools. Install them once.
 | [Git](https://git-scm.com/downloads) | Downloads the template       | `git --version` |
 
 Open a terminal (on Windows: **PowerShell**; on macOS: **Terminal**) and run the commands in the last
-column. Each should print a version number. Node.js must be **20 or newer**.
+column. Each should print a version number. Node.js must be **22.13 or newer**.
 
 ::: tip Use a code editor
 [Visual Studio Code](https://code.visualstudio.com/) is free and works well with this template.
@@ -74,9 +74,9 @@ export default function App() {
 Save the file. The window updates instantly. You just edited a desktop app with React and Tailwind.
 
 ::: info What reloads when
-Changes in `src/renderer` update the window instantly. Changes in `src/preload` reload the window,
-and changes in `src/main` restart the app, both automatically. If anything looks stuck, type `rs`
-in the terminal and press Enter to restart.
+Changes in `src/renderer` update the window instantly, and changes in `src/preload` reload it.
+Changes in `src/main` are rebuilt automatically, but the running app keeps the old code until you
+restart it: type `rs` in the terminal and press Enter.
 :::
 
 ## 5. Check your work

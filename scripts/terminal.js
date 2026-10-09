@@ -105,9 +105,12 @@ function printNextSteps() {
 }
 
 // Fails early with a clear message on Node.js versions this template does not support.
-function checkNodeVersion(minimumMajor) {
-  const major = Number(process.versions.node.split('.')[0]);
-  return { ok: major >= minimumMajor, version: process.versions.node };
+// `minimum` is "major.minor", for example "22.13".
+function checkNodeVersion(minimum) {
+  const [major, minor] = process.versions.node.split('.').map(Number);
+  const [minMajor, minMinor] = minimum.split('.').map(Number);
+  const ok = major > minMajor || (major === minMajor && minor >= minMinor);
+  return { ok, version: process.versions.node };
 }
 
 module.exports = { box, checkNodeVersion, color, isInteractive, printNextSteps, spinner, symbols };

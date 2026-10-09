@@ -31,6 +31,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Electron Forge 8 (needs Node.js 22.13 or newer), `@electron/fuses` 2, React 19.3,
+  Tailwind CSS 4.3.3, `actions/checkout` v7 and `actions/deploy-pages` v5. The main and preload
+  bundles are now `.vite/build/main.cjs` and `preload.cjs`.
+- CI runs on `main` are no longer cancelled by the next push; only older pull request runs are.
+- Dependabot groups Tailwind packages, moves `@electron/fuses` with Forge, and skips ESLint
+  major versions until `eslint-plugin-react` supports ESLint 10.
 - Electron Forge packages updated to 7.11.2.
 - Renamed the app from `my-app` to `electron-react-vite` ("Electron React Vite").
 - Source split into `src/main`, `src/preload`, `src/renderer` and `src/shared`, with the main
@@ -40,6 +46,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Fixed
 
+- The docs said changes in `src/main` restart the app automatically. They do not: type `rs`.
 - `package.json` was not valid JSON, so `npm install` failed.
 - `package-lock.json` did not include the lint, docs and publishing packages, so `npm ci` failed.
 - DevTools opened in the packaged app.

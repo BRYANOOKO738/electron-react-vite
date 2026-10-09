@@ -3,7 +3,7 @@
 const { spawn } = require('node:child_process');
 const { checkNodeVersion, color, printNextSteps, spinner, symbols } = require('./terminal');
 
-const MINIMUM_NODE = 20;
+const MINIMUM_NODE = '22.13';
 
 // Runs `npm install`, keeping its output to show only if it fails.
 function npmInstall() {

@@ -6,7 +6,7 @@
 Check your internet connection, then run `npm install` again. Behind a company proxy, follow
 Electron's [proxy instructions](https://www.electronjs.org/docs/latest/tutorial/installation#proxies).
 
-**`node -v` prints a version below 20, or "command not found".**
+**`node -v` prints a version below 22.13, or "command not found".**
 Install the LTS version from [nodejs.org](https://nodejs.org/), then open a new terminal.
 
 ## Running
@@ -26,6 +26,10 @@ failed. Check the terminal for errors from `src/preload/preload.js`.
 **"Refused to load ... because it violates the Content Security Policy".**
 The page tried to load something from the internet. See
 [Use web images or fonts](/guide/common-tasks#use-web-images-or-fonts).
+
+**"Error invoking remote method '…': Error: No handler registered for '…'".**
+You added or changed a handler in `src/main`, but the app is still running the old main-process
+code. Type `rs` in the terminal running `npm start` and press Enter.
 
 **Only one copy of the app opens.**
 That is on purpose: a second launch focuses the window that is already open
