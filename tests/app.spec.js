@@ -63,3 +63,35 @@ test('opens external links in the browser, not inside the app', async () => {
 
   await app.close();
 });
+
+test('welcome screen fits the default window without scrolling', async () => {
+  const app = await launchApp();
+  const window = await appWindow(app);
+  // Wait for the entrance animations (the last card starts at 1.1 s).
+  await expect(window.getByRole('link', { name: /Tailwind CSS/ })).toBeVisible();
+  await window.waitForTimeout(1500);
+
+  const { scrollHeight, clientHeight } = await window.evaluate(() => ({
+    scrollHeight: document.documentElement.scrollHeight,
+    clientHeight: document.documentElement.clientHeight,
+  }));
+  expect(scrollHeight).toBeLessThanOrEqual(clientHeight);
+
+  await app.close();
+});
+
+test('shows everything at once when the system asks for reduced motion', async () => {
+  const app = await launchApp();
+  const window = await appWindow(app);
+  await window.emulateMedia({ reducedMotion: 'reduce' });
+  await window.reload();
+
+  // Without reduced motion the last card is still invisible at this point.
+  await window.waitForTimeout(150);
+  const opacity = await window
+    .getByRole('link', { name: /Tailwind CSS/ })
+    .evaluate((element) => getComputedStyle(element).opacity);
+  expect(Number(opacity)).toBe(1);
+
+  await app.close();
+});
