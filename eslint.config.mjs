@@ -20,9 +20,14 @@ export default [
     },
   },
   {
-    // Build and tooling config files, setup scripts and the end-to-end tests.
-    files: ['*.config.{js,mjs}', 'tests/**/*.js', 'scripts/**/*.js'],
+    // Build and tooling config files and setup scripts.
+    files: ['*.config.{js,mjs}', 'scripts/**/*.js'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    // End-to-end tests run in Node.js, but code passed to page.evaluate() runs in the page.
+    files: ['tests/**/*.js'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   {
     // React renderer (browser).
