@@ -5,6 +5,16 @@ All notable changes to this project are documented here. New versions are added 
 [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:` ...), and this project
 uses [Semantic Versioning](https://semver.org/).
 
+## [1.1.0](https://github.com/BRYANOOKO738/electron-react-vite/compare/v1.0.0...v1.1.0) (2026-10-09)
+
+
+### Added
+
+* animated logo and redesigned welcome screen ([aad3ef9](https://github.com/BRYANOOKO738/electron-react-vite/commit/aad3ef954be1c826f6562180b865c98a935254a7))
+* animated logo and redesigned welcome screen ([6684066](https://github.com/BRYANOOKO738/electron-react-vite/commit/6684066fbbf569b003257f5497d983fb612d0eb1))
+* automate releases and add security, review and community bots ([c3de9b9](https://github.com/BRYANOOKO738/electron-react-vite/commit/c3de9b95b2953de2c10748133475611301bcb792))
+* automate releases with Release Please ([af9c971](https://github.com/BRYANOOKO738/electron-react-vite/commit/af9c971592ff9567fdc55855c0242c5b4d329957))
+
 ## 1.0.0 (2026-10-09)
 
 ### Added
