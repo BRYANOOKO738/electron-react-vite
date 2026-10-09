@@ -4,11 +4,20 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # eslint-plugin-react supports ESLint up to 9; revisit when it supports ESLint 10.
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@eslint/js'
+        update-types: ['version-update:semver-major']
     groups:
+      # Forge plugins and @electron/fuses must move together (plugin-fuses needs a matching fuses).
       electron-forge:
-        patterns: ['@electron-forge/*']
+        patterns: ['@electron-forge/*', '@electron/fuses']
       react:
         patterns: ['react', 'react-dom']
+      tailwind:
+        patterns: ['tailwindcss', '@tailwindcss/*']
       lint:
         patterns: ['eslint', '@eslint/*', 'eslint-plugin-*', 'globals', 'prettier']
   - package-ecosystem: github-actions

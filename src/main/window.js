@@ -14,7 +14,7 @@ export function createMainWindow() {
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#020617' : '#ffffff',
     webPreferences: {
       // Built from src/preload/preload.js into the same folder as this file.
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,

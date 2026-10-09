@@ -36,7 +36,7 @@ Electron · React · Vite · Tailwind CSS · Electron Forge
 
 ## Quick start
 
-You need [Node.js](https://nodejs.org/) 20 or newer (22 recommended) and [Git](https://git-scm.com/).
+You need [Node.js](https://nodejs.org/) 22.13 or newer and [Git](https://git-scm.com/).
 
 ```bash
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app

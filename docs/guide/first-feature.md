@@ -83,6 +83,11 @@ The handler checks that `text` really is text before writing it. Always validate
 sends: treat it like data from the internet.
 :::
 
+::: warning Restart after changing src/main
+The main process keeps running its old code until you restart it. In the terminal running
+`npm start`, type `rs` and press Enter.
+:::
+
 ## 3. Let the page ask for it
 
 Add a `saveNote` function to the bridge in `src/preload/preload.js`:
