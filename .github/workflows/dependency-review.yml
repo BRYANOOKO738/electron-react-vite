@@ -13,8 +13,23 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
+      # The review needs the repository's Dependency graph (Settings → Code security).
+      # Until it is turned on, skip with a warning instead of failing every pull request.
+      - name: Check that the dependency graph is enabled
+        id: graph
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/$GITHUB_REPOSITORY/dependency-graph/sbom" --silent 2>/dev/null; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Dependency review skipped: turn on Dependency graph in Settings → Code security."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v7
+        if: steps.graph.outputs.enabled == 'true'
       - uses: actions/dependency-review-action@v4
+        if: steps.graph.outputs.enabled == 'true'
         with:
           fail-on-severity: moderate
           comment-summary-in-pr: on-failure
