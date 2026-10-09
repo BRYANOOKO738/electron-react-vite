@@ -28,7 +28,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            arch: x64
+          - os: windows-latest
+            arch: x64
+          # Same as the release: Apple Silicon and Intel Macs.
+          - os: macos-latest
+            arch: arm64,x64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +43,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-      - name: Install Linux packaging tools
+      - name: Install Linux tools
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y fakeroot rpm xvfb
       - run: npm ci
@@ -46,7 +53,7 @@ jobs:
       - name: Test (virtual display)
         if: runner.os == 'Linux'
         run: xvfb-run --auto-servernum npm test
-      - run: npm run make
+      - run: npm run make -- --arch=${{ matrix.arch }}
       - uses: actions/upload-artifact@v4
         with:
           name: installers-${{ matrix.os }}

@@ -6,12 +6,16 @@ module.exports = {
     asar: true,
     // Must match package.json "name": the Linux deb/rpm makers look for this binary.
     executableName: 'electron-react-vite',
+    // App icon without extension: icon.icns is used on macOS, icon.ico on Windows.
+    icon: 'assets/icons/icon',
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        setupIcon: 'assets/icons/icon.ico',
+      },
     },
     {
       name: '@electron-forge/maker-zip',
@@ -22,6 +26,7 @@ module.exports = {
       config: {
         options: {
           maintainer: 'Bryan Onyango <ookobryan8@gmail.com>',
+          icon: 'assets/icons/icon.png',
           homepage: 'https://bryanooko738.github.io/electron-react-vite/',
           categories: ['Development'],
         },
@@ -33,6 +38,7 @@ module.exports = {
         options: {
           homepage: 'https://bryanooko738.github.io/electron-react-vite/',
           categories: ['Development'],
+          icon: 'assets/icons/icon.png',
         },
       },
     },
@@ -58,12 +64,12 @@ module.exports = {
         build: [
           {
             // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
-            entry: 'src/main.js',
+            entry: 'src/main/main.js',
             config: 'vite.main.config.mjs',
             target: 'main',
           },
           {
-            entry: 'src/preload.js',
+            entry: 'src/preload/preload.js',
             config: 'vite.preload.config.mjs',
             target: 'preload',
           },

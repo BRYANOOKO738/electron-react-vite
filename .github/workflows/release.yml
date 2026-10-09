@@ -1,6 +1,7 @@
 name: Release
 
-# Runs when a version tag is pushed, e.g. `npm version patch && git push --follow-tags`.
+# Runs when a version tag is pushed: `npm version patch && git push --follow-tags`.
+# Builds installers on Windows, macOS and Linux and attaches them to ONE draft release.
 on:
   push:
     tags: ['v*.*.*']
@@ -8,13 +9,50 @@ on:
 permissions:
   contents: write # create the release and upload installers
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  create-release:
+    name: Create draft release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the tag matches package.json
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $expected"
+            exit 1
+          fi
+      # Created once here, so the three build jobs below all upload to the same
+      # release instead of racing to create one each.
+      - name: Create the draft release (if it does not exist yet)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -qx "$GITHUB_REF_NAME"; then
+            echo "Release $GITHUB_REF_NAME already exists"
+          else
+            gh release create "$GITHUB_REF_NAME" --draft --verify-tag --generate-notes --title "$GITHUB_REF_NAME"
+          fi
+
   publish:
-    name: Publish (${{ matrix.os }})
+    name: Build and upload (${{ matrix.os }})
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            arch: x64
+          - os: windows-latest
+            arch: x64
+          # One macOS runner builds for both Apple Silicon and Intel Macs.
+          - os: macos-latest
+            arch: arm64,x64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -22,18 +60,17 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-      - name: Install Linux packaging tools
+      - name: Install Linux tools
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y fakeroot rpm
+        run: sudo apt-get update && sudo apt-get install -y fakeroot rpm xvfb
       - run: npm ci
-      - name: Check the tag matches package.json
-        shell: bash
-        run: |
-          expected="v$(node -p "require('./package.json').version")"
-          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match package.json version $expected" >&2
-            exit 1
-          fi
-      - run: npm run publish
+      # Never publish an app that fails its tests.
+      - name: Test
+        if: runner.os != 'Linux'
+        run: npm test
+      - name: Test (virtual display)
+        if: runner.os == 'Linux'
+        run: xvfb-run --auto-servernum npm test
+      - run: npm run publish -- --arch=${{ matrix.arch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
