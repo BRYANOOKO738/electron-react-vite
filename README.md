@@ -1,262 +1,147 @@
-# electron-react-vite
+<div align="center">
 
-A minimal, ready-to-build desktop app template using **Electron**, **React**, **Vite** and **Tailwind CSS**, packaged with **Electron Forge**.
+# Electron React Vite
 
-Clone it, run one command and start building your desktop app with fast hot reload and a modern React setup.
+**The beginner-friendly way to build secure desktop apps with the web tools you already know.**
 
-![Electron](https://img.shields.io/badge/Electron-39-47848F?logo=electron&logoColor=white)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+Electron · React · Vite · Tailwind CSS · Electron Forge
 
----
+[![CI](https://github.com/BRYANOOKO738/electron-react-vite/actions/workflows/ci.yml/badge.svg)](https://github.com/BRYANOOKO738/electron-react-vite/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/BRYANOOKO738/electron-react-vite?include_prereleases)](https://github.com/BRYANOOKO738/electron-react-vite/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Contents
+[**Documentation**](https://bryanooko738.github.io/electron-react-vite/) ·
+[**Download**](https://github.com/BRYANOOKO738/electron-react-vite/releases/latest) ·
+[**Report a bug**](https://github.com/BRYANOOKO738/electron-react-vite/issues/new/choose)
 
-- [Features](#features)
-- [Tech stack](#tech-stack)
-- [Requirements](#requirements)
-- [Getting started](#getting-started)
-- [Scripts](#scripts)
-- [Project structure](#project-structure)
-- [How it works](#how-it-works)
-- [Customising the app](#customising-the-app)
-- [Building installers](#building-installers)
-- [Security](#security)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
-- [Acknowledgements](#acknowledgements)
+</div>
 
 ---
 
-## Features
+## Why this template?
 
-- **Electron 39** desktop shell for Windows, macOS and Linux.
-- **React 19** user interface with JSX.
-- **Vite 5** for near-instant start-up and hot module replacement (HMR) in development.
-- **Tailwind CSS 4** through the official Vite plugin. No `tailwind.config.js` needed.
-- **Electron Forge 7** for running, packaging and making installers.
-- **Security fuses** enabled at package time (see [Security](#security)).
-- Installer makers for **Windows (Squirrel)**, **macOS (ZIP)** and **Linux (DEB and RPM)**.
+- **Start in one minute.** Clone, install, `npm start`. A working app opens with a welcome screen
+  that explains where to go next.
+- **Secure by default.** Context isolation, sandboxing, a strict Content Security Policy, a
+  navigation guard and Electron fuses are already set up, and tests check them.
+- **Learn by example.** The welcome screen shows how the page talks to Electron through a safe
+  preload bridge (IPC), with comments explaining each step.
+- **Reliable.** Crash recovery, an error screen instead of a blank window, one running copy at a
+  time, and end-to-end tests that start the real app.
+- **Ready to ship.** One command builds installers for Windows, macOS and Linux. Pushing a version
+  tag publishes them to GitHub Releases automatically.
+- **Clean code from day one.** ESLint, Prettier and CI on every pull request.
 
-## Tech stack
+## Quick start
 
-| Layer      | Tool                                                                  | Version |
-| ---------- | --------------------------------------------------------------------- | ------- |
-| Desktop    | [Electron](https://www.electronjs.org/)                               | 39.1.0  |
-| UI         | [React](https://react.dev/) and React DOM                             | ^19.2.0 |
-| Bundler    | [Vite](https://vitejs.dev/) with `@vitejs/plugin-react`               | ^5.4.21 |
-| Styling    | [Tailwind CSS](https://tailwindcss.com/) with `@tailwindcss/vite`     | ^4.1.17 |
-| Build/ship | [Electron Forge](https://www.electronforge.io/) with the Vite plugin  | ^7.10.2 |
-
-## Requirements
-
-- [Node.js](https://nodejs.org/) **18 or 20+** (an LTS release is recommended; tested with Node 22).
-- npm (comes with Node.js).
-- [Git](https://git-scm.com/).
-
-To build Linux installers you also need the system packaging tools:
-
-- `.deb`: `dpkg` and `fakeroot`
-- `.rpm`: `rpm-build`
-
-## Getting started
+You need [Node.js](https://nodejs.org/) 20 or newer (22 recommended) and [Git](https://git-scm.com/).
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/BRYANOOKO738/electron-react-vite.git
-cd electron-react-vite
-
-# 2. Install dependencies
+git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app
+cd my-app
 npm install
-
-# 3. Start the app in development mode
 npm start
 ```
 
-A desktop window opens with the app. Edit any file in `src/` and the window updates instantly.
+The app opens. Edit `src/Components/Welcome.jsx`, save, and watch the window update.
 
 ## Scripts
 
-| Command           | What it does                                                                      |
-| ----------------- | --------------------------------------------------------------------------------- |
-| `npm start`       | Runs the app in development mode with hot reload.                                 |
-| `npm run package` | Bundles the app into a runnable folder in `out/` (no installer).                  |
-| `npm run make`    | Builds installers for the current platform in `out/make/`.                        |
-| `npm run publish` | Publishes the build with Electron Forge (requires a publisher to be configured).  |
-| `npm run lint`    | Placeholder. No linter is configured yet.                                         |
+| Command            | What it does                                        |
+| ------------------ | --------------------------------------------------- |
+| `npm start`        | Runs the app in development mode with hot reload    |
+| `npm test`         | Builds the app and runs the end-to-end tests        |
+| `npm run check`    | Runs ESLint and the Prettier format check           |
+| `npm run lint:fix` | Fixes lint problems that can be fixed automatically |
+| `npm run format`   | Formats every file with Prettier                    |
+| `npm run package`  | Bundles the app into `out/` (no installer)          |
+| `npm run make`     | Builds installers for your system into `out/make/`  |
+| `npm run publish`  | Builds and uploads installers to a GitHub release   |
+| `npm run docs:dev` | Runs the documentation site locally                 |
 
 ## Project structure
 
 ```text
-electron-react-vite/
-├── src/
-│   ├── Components/
-│   │   └── Hello.jsx          # Example React component
-│   ├── index.css              # Tailwind import and base styles
-│   ├── main.js                # Electron main process (creates the window)
-│   ├── preload.js             # Preload script (bridge between main and renderer)
-│   └── renderer.jsx           # React entry point, mounts <App /> into #root
-├── index.html                 # HTML page loaded by the window
-├── forge.config.js            # Electron Forge: build targets, makers and fuses
-├── vite.main.config.mjs       # Vite config for the main process
-├── vite.preload.config.mjs    # Vite config for the preload script
-├── vite.renderer.config.mjs   # Vite config for the UI (React and Tailwind plugins)
-├── package.json
-├── LICENSE
-└── README.md
+src/
+├── Components/
+│   ├── ErrorBoundary.jsx   # Recovery screen if a component crashes
+│   └── Welcome.jsx         # The first screen: replace it with your UI
+├── index.css               # Tailwind import and base styles
+├── main.js                 # Electron main process: window, security, IPC
+├── preload.js              # Safe bridge between Electron and the page
+└── renderer.jsx            # React entry point
+tests/app.spec.js           # End-to-end tests (Playwright)
+docs/                       # Documentation site (VitePress, GitHub Pages)
+forge.config.js             # Packaging, installers, publishing and fuses
+vite.renderer.config.mjs    # Vite, React, Tailwind and the Content Security Policy
 ```
 
-## How it works
+An Electron app has three parts:
 
-An Electron app runs in two kinds of process:
+1. **Main process** (`src/main.js`) runs Node.js and controls windows and the app's lifecycle.
+2. **Renderer** (`src/renderer.jsx`) is the React page inside the window. It has no Node.js access.
+3. **Preload** (`src/preload.js`) is the only bridge between them. It exposes small, specific
+   functions to the page.
 
-1. **Main process** (`src/main.js`) runs Node.js. It controls the app's lifecycle and creates an 800 × 600 `BrowserWindow`. In development it loads the Vite dev server; in production it loads the built `index.html`.
-2. **Renderer process** (`index.html`, then `src/renderer.jsx`) is the web page inside the window. It renders the React app into the `#root` element.
-
-The **preload script** (`src/preload.js`) runs before the page loads. It is the safe place to expose selected main-process features to the UI with Electron's `contextBridge`. It is empty in this template.
-
-Electron Forge's Vite plugin builds all three parts, as set in `forge.config.js`.
-
-## Customising the app
-
-### Change the UI
-
-Edit `src/Components/Hello.jsx`, or add new components and render them in `src/renderer.jsx`:
-
-```jsx
-// src/Components/Welcome.jsx
-export default function Welcome() {
-  return (
-    <div className="rounded-xl bg-slate-100 p-6 text-center">
-      <h1 className="text-2xl font-bold text-slate-800">Welcome!</h1>
-    </div>
-  );
-}
-```
-
-Tailwind classes work in any component straight away.
-
-### Rename the app
-
-Update `name`, `productName` and `description` in `package.json`, and the `<title>` in `index.html`.
-
-### Change the window
-
-Edit the `BrowserWindow` options in `src/main.js`, for example `width`, `height` or `title`.
-
-### Turn off DevTools
-
-`src/main.js` always opens DevTools. To open them only in development, change the call to:
-
-```js
-if (!app.isPackaged) {
-  mainWindow.webContents.openDevTools();
-}
-```
-
-### Talk between the UI and Electron
-
-Expose a small, safe API in `src/preload.js`:
-
-```js
-import { contextBridge, ipcRenderer } from 'electron';
-
-contextBridge.exposeInMainWorld('api', {
-  ping: () => ipcRenderer.invoke('ping'),
-});
-```
-
-Handle it in `src/main.js`:
-
-```js
-import { ipcMain } from 'electron';
-
-ipcMain.handle('ping', () => 'pong');
-```
-
-Then call `await window.api.ping()` from any React component.
-
-## Building installers
-
-```bash
-npm run make
-```
-
-The output goes to `out/make/`. Each platform builds its own installers:
-
-| Platform | Maker    | Output                 |
-| -------- | -------- | ---------------------- |
-| Windows  | Squirrel | `Setup.exe`            |
-| macOS    | ZIP      | `.zip` app bundle      |
-| Linux    | DEB, RPM | `.deb` and `.rpm` packages |
-
-To build for Windows or macOS, run the command on that operating system (or in CI on that platform).
+Read the [project structure guide](https://bryanooko738.github.io/electron-react-vite/guide/project-structure)
+to add your own features the same way.
 
 ## Security
 
-The Forge **Fuses** plugin hardens the packaged app:
+| Protection              | What it does                                              |
+| ----------------------- | --------------------------------------------------------- |
+| Context isolation       | Keeps the page's JavaScript separate from Electron's      |
+| Sandbox                 | Runs the page without Node.js access                      |
+| Content Security Policy | Allows only the app's own scripts and styles              |
+| Navigation guard        | Stops the window from loading other websites              |
+| External links          | Opens `http(s)` links in the user's browser               |
+| Electron fuses          | Disables Node.js debugging flags and checks the app files |
 
-| Fuse                                    | Setting  | Effect                                                    |
-| --------------------------------------- | -------- | --------------------------------------------------------- |
-| `RunAsNode`                             | disabled | The app cannot be started as a plain Node.js process.     |
-| `EnableCookieEncryption`                | enabled  | Cookies are encrypted on disk.                            |
-| `EnableNodeOptionsEnvironmentVariable`  | disabled | `NODE_OPTIONS` is ignored.                                |
-| `EnableNodeCliInspectArguments`         | disabled | `--inspect` debugging flags are ignored.                  |
-| `EnableEmbeddedAsarIntegrityValidation` | enabled  | The app archive is checked for tampering.                 |
-| `OnlyLoadAppFromAsar`                   | enabled  | App code loads only from the packaged `app.asar` archive. |
+The end-to-end tests check these protections on every pull request. To report a vulnerability, see
+[SECURITY.md](SECURITY.md).
 
-Follow the [Electron security checklist](https://www.electronjs.org/docs/latest/tutorial/security) as the app grows. In particular, keep `contextIsolation` on and expose only what you need through the preload script.
+## Releasing
+
+```bash
+npm version patch        # or minor / major
+git push --follow-tags
+```
+
+GitHub Actions then builds installers on Windows, macOS and Linux and attaches them to a draft
+[release](https://github.com/BRYANOOKO738/electron-react-vite/releases). Review it and click
+**Publish**. See the [release guide](https://bryanooko738.github.io/electron-react-vite/guide/releasing).
+
+> [!NOTE]
+> The installers are not code-signed yet, so Windows SmartScreen and macOS Gatekeeper warn users
+> when they open them.
 
 ## Troubleshooting
 
-| Problem                                          | Fix                                                                                       |
-| ------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| `npm start` fails after updating dependencies    | Delete `node_modules` and `package-lock.json`, then run `npm install` again.              |
-| Electron download fails during `npm install`     | Check your internet or proxy settings, then run `npm install` again.                      |
-| Blank window                                     | Open DevTools (`Ctrl+Shift+I` or `Cmd+Option+I`) and check the Console for errors.        |
-| `npm run make` fails on Linux                    | Install `dpkg` and `fakeroot` for `.deb`, or `rpm-build` for `.rpm`.                       |
-| Tailwind classes have no effect                  | Make sure `src/index.css` starts with `@import "tailwindcss";` and is imported in `renderer.jsx`. |
+| Problem                                        | Fix                                                                   |
+| ---------------------------------------------- | --------------------------------------------------------------------- |
+| `npm install` fails while downloading Electron | Check your internet or proxy settings, then run `npm install` again.  |
+| `npm start` fails after updating packages      | Delete `node_modules`, then run `npm install` again.                  |
+| Blank window                                   | Open DevTools (`Ctrl+Shift+I` / `Cmd+Option+I`) and read the Console. |
+| `npm run make` fails on Linux                  | Install `fakeroot` and `dpkg` for `.deb`, or `rpm` for `.rpm`.        |
+| `npm test` fails on Linux with no display      | Run it with a virtual display: `xvfb-run npm test`.                   |
 
 ## Contributing
 
-Contributions are welcome.
-
-1. Fork the repository.
-2. Create a branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m "Add my feature"`
-4. Push the branch: `git push origin feature/my-feature`
-5. Open a pull request.
-
-For bugs and ideas, please open an [issue](https://github.com/BRYANOOKO738/electron-react-vite/issues).
+Contributions are welcome, from typo fixes to new features. Read [CONTRIBUTING.md](CONTRIBUTING.md)
+to get set up, then pick an issue or open a new one.
 
 ## License
 
-This project is licensed under the **MIT License**. See [`LICENSE`](LICENSE) for the full text.
+[MIT](LICENSE) © 2025 Bryan Onyango
 
-Copyright © 2025 **Bryan Onyango**
-
-You may use, copy, modify, merge, publish, distribute, sublicense and sell copies of this software, as long as the copyright notice and the license text are included in all copies or substantial parts of it. The software is provided "as is", without warranty of any kind.
-
-If you use this template, a credit is appreciated:
+You may use, copy, change and share this template, including in commercial apps, as long as the
+copyright notice and license text are kept. If it helped you, a credit is appreciated:
 
 > Built with [electron-react-vite](https://github.com/BRYANOOKO738/electron-react-vite) by Bryan Onyango.
 
 ## Author
 
-**Bryan Onyango**
-
-- GitHub: [@BRYANOOKO738](https://github.com/BRYANOOKO738)
-- Email: [ookobryan8@gmail.com](mailto:ookobryan8@gmail.com)
+**Bryan Onyango** · [@BRYANOOKO738](https://github.com/BRYANOOKO738) ·
+[ookobryan8@gmail.com](mailto:ookobryan8@gmail.com)
 
 If this project helped you, please give it a ⭐ on GitHub.
-
-## Acknowledgements
-
-- [Electron](https://www.electronjs.org/) and [Electron Forge](https://www.electronforge.io/)
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)

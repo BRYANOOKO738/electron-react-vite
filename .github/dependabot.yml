@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      electron-forge:
+        patterns: ['@electron-forge/*']
+      react:
+        patterns: ['react', 'react-dom']
+      lint:
+        patterns: ['eslint', '@eslint/*', 'eslint-plugin-*', 'globals', 'prettier']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

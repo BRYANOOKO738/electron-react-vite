@@ -1,0 +1,45 @@
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+
+export default [
+  {
+    ignores: ['.vite/', 'out/', 'node_modules/', 'docs/.vitepress/cache/', 'docs/.vitepress/dist/'],
+  },
+  js.configs.recommended,
+  {
+    // Electron main process and preload script (Node.js).
+    files: ['src/main.js', 'src/preload.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        MAIN_WINDOW_VITE_DEV_SERVER_URL: 'readonly',
+        MAIN_WINDOW_VITE_NAME: 'readonly',
+      },
+    },
+  },
+  {
+    // Build and tooling config files, and the end-to-end tests.
+    files: ['*.config.{js,mjs}', 'tests/**/*.js'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    // React renderer (browser).
+    files: ['src/**/*.jsx'],
+    ...react.configs.flat.recommended,
+    ...react.configs.flat['jsx-runtime'],
+    languageOptions: {
+      ...react.configs.flat.recommended.languageOptions,
+      globals: globals.browser,
+    },
+    plugins: { react, 'react-hooks': reactHooks },
+    rules: {
+      ...react.configs.flat.recommended.rules,
+      ...react.configs.flat['jsx-runtime'].rules,
+      ...reactHooks.configs.recommended.rules,
+      'react/prop-types': 'off',
+    },
+    settings: { react: { version: 'detect' } },
+  },
+];

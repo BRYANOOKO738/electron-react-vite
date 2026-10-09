@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, nativeTheme, shell } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 
@@ -29,7 +29,8 @@ const createWindow = () => {
     minWidth: 480,
     minHeight: 360,
     show: false, // shown on 'ready-to-show' to avoid a white flash
-    backgroundColor: '#ffffff',
+    // Match the page background so there is no flash before it paints.
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#020617' : '#ffffff',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -90,6 +91,13 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
+    // Answers window.electronApp.getAppInfo() from the preload script.
+    ipcMain.handle('app:get-info', () => ({
+      name: app.getName(),
+      version: app.getVersion(),
+      platform: process.platform,
+    }));
+
     createWindow();
 
     // On macOS, re-create a window when the dock icon is clicked and none are open.
