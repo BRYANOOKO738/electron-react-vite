@@ -7,7 +7,7 @@ Thanks for helping improve electron-react-vite.
 ```bash
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git
 cd electron-react-vite
-npm install
+npm run setup
 npm start
 ```
 

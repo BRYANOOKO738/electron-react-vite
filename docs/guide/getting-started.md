@@ -24,10 +24,34 @@ column. Each should print a version number. Node.js must be **20 or newer**.
 ```bash
 git clone https://github.com/BRYANOOKO738/electron-react-vite.git my-app
 cd my-app
-npm install
+npm run setup
 ```
 
-`npm install` downloads Electron and the other packages. It takes a minute or two the first time.
+`npm run setup` checks your Node.js version, then downloads Electron and the other packages while
+showing its progress. It takes a minute or two the first time. When it finishes, it shows the
+commands you need next:
+
+```text
+  Electron React Vite · setup
+
+  ✔ Node.js 22.22.0
+  ✔ Packages installed 12.6s
+
+  ╭──────────────────────────────────────────────────────────────╮
+  │  Your app is ready.                                          │
+  │                                                              │
+  │  npm start       Start the app with hot reload               │
+  │  npm test        Run the end-to-end tests                    │
+  │  npm run make    Build installers                            │
+  │                                                              │
+  │  Start editing: src/renderer/App.jsx                         │
+  │  Guide: https://bryanooko738.github.io/electron-react-vite/  │
+  ╰──────────────────────────────────────────────────────────────╯
+```
+
+::: tip Prefer plain npm?
+`npm install` works too. You see npm's own progress, then the same summary at the end.
+:::
 
 ## 3. Start it
 
@@ -66,6 +90,7 @@ npm test        # starts the real app and runs the tests
 
 | Command            | What it does                                        |
 | ------------------ | --------------------------------------------------- |
+| `npm run setup`    | Checks Node.js and installs everything (first time) |
 | `npm start`        | Runs the app in development mode with hot reload    |
 | `npm test`         | Builds the app and runs the end-to-end tests        |
 | `npm run check`    | Runs ESLint and the Prettier format check           |

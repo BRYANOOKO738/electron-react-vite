@@ -23,6 +23,7 @@ my-app/
 │   └── shared/
 │       └── ipc-channels.js    Names shared by main and preload
 ├── assets/icons/              App icon for Windows (.ico), macOS (.icns) and Linux (.png)
+├── scripts/                   npm run setup and the summary shown after installing
 ├── tests/                     End-to-end tests that start the real app
 ├── docs/                      This documentation site
 ├── index.html                 The HTML page loaded into the window
