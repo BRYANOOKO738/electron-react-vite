@@ -54,7 +54,7 @@ jobs:
         if: runner.os == 'Linux'
         run: xvfb-run --auto-servernum npm test
       - run: npm run make -- --arch=${{ matrix.arch }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: installers-${{ matrix.os }}
           path: out/make/**
